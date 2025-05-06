@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Controller, useForm } from 'react-hook-form';
+import { AssessmentService } from '../../services/AssessmentService';
 
 export const NewAssessment = () => {
   const { control, formState: { errors }, handleSubmit } = useForm();
@@ -27,14 +28,30 @@ export const NewAssessment = () => {
     return `High`;
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const total = calculateScore(data);
     const risk = determineRiskLevel(total);
     setScore(total);
     setRiskLevel(risk);
-    console.log(`Submitted Data:`, data);
-    console.log(`Total Score:`, total);
-    console.log(`Risk Level:`, risk);
+
+    try {
+      // Call the submit function from AssessmentService to make the Axios request
+      const result = await AssessmentService.submit({
+        altercationsWithCats: data.altercationsWithCats,
+        altercationsWithOwner: data.altercationsWithOwner,
+        catDob: data.catDob,
+        catName: data.catName,
+        hissesAtStrangers: data.hissesAtStrangers,
+        playsWellWithDogs: data.playsWellWithDogs,
+        previousContact: data.previousContact,
+        riskLevel: risk,
+        score: total,
+      });
+
+      console.log(`Assessment submitted successfully:`, result);
+    } catch (error) {
+      console.error(`Error submitting assessment:`, error);
+    }
   };
 
   return (
@@ -50,8 +67,7 @@ export const NewAssessment = () => {
               defaultValue=""
               render={({ field }) => <Form.Control {...field} />}
             />
-            {errors.catName &&
-              <Form.Text className="text-danger">{errors.catName.message}</Form.Text>}
+            {errors.catName && <Form.Text className="text-danger">{errors.catName.message}</Form.Text>}
           </Form.Group>
         </Col>
         <Col>
@@ -64,8 +80,7 @@ export const NewAssessment = () => {
               defaultValue=""
               render={({ field }) => <Form.Control type="date" {...field} />}
             />
-            {errors.catDob &&
-              <Form.Text className="text-danger">{errors.catDob.message}</Form.Text>}
+            {errors.catDob && <Form.Text className="text-danger">{errors.catDob.message}</Form.Text>}
           </Form.Group>
         </Col>
       </Row>
@@ -85,8 +100,7 @@ export const NewAssessment = () => {
               <option value="1">Yes (score = 1)</option>
             </Form.Control>}
         />
-        {errors.previousContact &&
-          <Form.Text className="text-danger">{errors.previousContact.message}</Form.Text>}
+        {errors.previousContact && <Form.Text className="text-danger">{errors.previousContact.message}</Form.Text>}
       </Form.Group>
 
       <Form.Group controlId="altercationsWithCats">
@@ -95,7 +109,7 @@ export const NewAssessment = () => {
           name="altercationsWithCats"
           control={control}
           rules={{ required: `Please select an option` }}
-          defaultValue=""// <-- Added default value
+          defaultValue=""
           render={({ field }) =>
             <Form.Control as="select" {...field} value={field.value ?? ``}>
               <option value="">Select an option</option>
@@ -139,8 +153,7 @@ export const NewAssessment = () => {
               <option value="1">No (score = 1)</option>
             </Form.Control>}
         />
-        {errors.playsWellWithDogs &&
-          <Form.Text className="text-danger">{errors.playsWellWithDogs.message}</Form.Text>}
+        {errors.playsWellWithDogs && <Form.Text className="text-danger">{errors.playsWellWithDogs.message}</Form.Text>}
       </Form.Group>
 
       <Form.Group controlId="hissesAtStrangers">
@@ -157,8 +170,7 @@ export const NewAssessment = () => {
               <option value="0">No (score = 0)</option>
             </Form.Control>}
         />
-        {errors.hissesAtStrangers &&
-          <Form.Text className="text-danger">{errors.hissesAtStrangers.message}</Form.Text>}
+        {errors.hissesAtStrangers && <Form.Text className="text-danger">{errors.hissesAtStrangers.message}</Form.Text>}
       </Form.Group>
 
       {/* Score display */}
@@ -172,4 +184,5 @@ export const NewAssessment = () => {
       </Button>
     </Form>
   );
+
 };

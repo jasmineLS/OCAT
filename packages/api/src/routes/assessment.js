@@ -1,4 +1,4 @@
-const { AssessmentService } = require(`../microservices`);
+/* const { AssessmentService } = require(`../microservices`);
 const { ResponseHandler } = require(`../utils`);
 
 const { Router } = require(`express`);
@@ -44,5 +44,35 @@ assessmentRouter.get(
     }
   },
 );
+
+module.exports = { assessmentRouter }; */
+
+const { AssessmentService } = require(`../microservices`);
+const { ResponseHandler } = require(`../utils`);
+const { Router } = require(`express`);
+
+const assessmentRouter = Router();
+
+assessmentRouter.post(`/`, async (req, res, next) => {
+  try {
+    // Directly use req.body as the assessment
+    const assessment = req.body;
+
+    // eslint-disable-next-line no-console
+    console.log(`Received assessment:`, assessment);
+
+    // Call the AssessmentService to submit the assessment
+    const result = await AssessmentService.submit(assessment);
+
+    // Handle response with the result of the submission
+    ResponseHandler(
+      res,
+      `Submitted assessment`,
+      { result },
+    );
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = { assessmentRouter };
