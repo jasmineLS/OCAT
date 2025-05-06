@@ -7,6 +7,11 @@
     "check-updates:all": "ncu --configFileName .check-updates.json --target latest --errorLevel 1"
   },
   "devDependencies": {
+    "eslint-plugin-sort-keys-custom-order": "^2.2.1",
     "npm-check-updates": "^16.5.1"
+  },
+  "dependencies": {
+    "react-bootstrap": "^2.10.9",
+    "react-hook-form": "^7.56.2"
   }
 }
