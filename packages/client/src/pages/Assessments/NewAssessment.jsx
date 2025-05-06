@@ -3,25 +3,20 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Controller, useForm } from 'react-hook-form';
 
 export const NewAssessment = () => {
-  const { control, formState: { errors }, getValues, handleSubmit, setValue } = useForm();
+  const { control, formState: { errors }, handleSubmit } = useForm();
   const [ score, setScore ] = useState(0);
   const [ riskLevel, setRiskLevel ] = useState(``);
 
-  // Calculate score based on user responses
   const calculateScore = (data) => {
     let totalScore = 0;
-
-    // Add score based on responses (adjust the logic as needed)
-    totalScore += parseInt(data.previousContact) || 0;
-    totalScore += parseInt(data.altercationsWithCats) || 0;
-    totalScore += parseInt(data.altercationsWithOwner) || 0;
-    totalScore += parseInt(data.playsWellWithDogs) || 0;
-    totalScore += parseInt(data.hissesAtStrangers) || 0;
-
+    totalScore += Number(data.previousContact) || 0;
+    totalScore += Number(data.altercationsWithCats) || 0;
+    totalScore += Number(data.altercationsWithOwner) || 0;
+    totalScore += Number(data.playsWellWithDogs) || 0;
+    totalScore += Number(data.hissesAtStrangers) || 0;
     return totalScore;
   };
 
-  // Determine the risk level based on the score
   const determineRiskLevel = (totalScore) => {
     if (totalScore <= 2) {
       return `Low`;
@@ -33,14 +28,12 @@ export const NewAssessment = () => {
   };
 
   const onSubmit = (data) => {
-    const totalScore = calculateScore(data);
-    const risk = determineRiskLevel(totalScore);
-    setScore(totalScore);
+    const total = calculateScore(data);
+    const risk = determineRiskLevel(total);
+    setScore(total);
     setRiskLevel(risk);
-
-    // Handle form submission
     console.log(`Submitted Data:`, data);
-    console.log(`Total Score:`, totalScore);
+    console.log(`Total Score:`, total);
     console.log(`Risk Level:`, risk);
   };
 
@@ -54,12 +47,11 @@ export const NewAssessment = () => {
               name="catName"
               control={control}
               rules={{ required: `Cat name is required` }}
+              defaultValue=""
               render={({ field }) => <Form.Control {...field} />}
             />
             {errors.catName &&
-              <Form.Text className="text-danger">
-                {errors.catName.message}
-              </Form.Text>}
+              <Form.Text className="text-danger">{errors.catName.message}</Form.Text>}
           </Form.Group>
         </Col>
         <Col>
@@ -69,32 +61,32 @@ export const NewAssessment = () => {
               name="catDob"
               control={control}
               rules={{ required: `Date of birth is required` }}
+              defaultValue=""
               render={({ field }) => <Form.Control type="date" {...field} />}
             />
             {errors.catDob &&
-              <Form.Text className="text-danger">
-                {errors.catDob.message}
-              </Form.Text>}
+              <Form.Text className="text-danger">{errors.catDob.message}</Form.Text>}
           </Form.Group>
         </Col>
       </Row>
 
+      {/* Dropdown fields */}
       <Form.Group controlId="previousContact">
         <Form.Label>Previous contact with the Cat Judicial System</Form.Label>
         <Controller
           name="previousContact"
           control={control}
           rules={{ required: `Please select an option` }}
+          defaultValue=""
           render={({ field }) =>
-            <Form.Control as="select" {...field}>
+            <Form.Control as="select" {...field} value={field.value ?? ``}>
+              <option value="">Select an option</option>
               <option value="0">No (score = 0)</option>
               <option value="1">Yes (score = 1)</option>
             </Form.Control>}
         />
         {errors.previousContact &&
-          <Form.Text className="text-danger">
-            {errors.previousContact.message}
-          </Form.Text>}
+          <Form.Text className="text-danger">{errors.previousContact.message}</Form.Text>}
       </Form.Group>
 
       <Form.Group controlId="altercationsWithCats">
@@ -103,16 +95,16 @@ export const NewAssessment = () => {
           name="altercationsWithCats"
           control={control}
           rules={{ required: `Please select an option` }}
+          defaultValue=""// <-- Added default value
           render={({ field }) =>
-            <Form.Control as="select" {...field}>
+            <Form.Control as="select" {...field} value={field.value ?? ``}>
+              <option value="">Select an option</option>
               <option value="0">0-3 altercations (score = 0)</option>
               <option value="1">3+ altercations (score = 1)</option>
             </Form.Control>}
         />
         {errors.altercationsWithCats &&
-          <Form.Text className="text-danger">
-            {errors.altercationsWithCats.message}
-          </Form.Text>}
+          <Form.Text className="text-danger">{errors.altercationsWithCats.message}</Form.Text>}
       </Form.Group>
 
       <Form.Group controlId="altercationsWithOwner">
@@ -121,16 +113,16 @@ export const NewAssessment = () => {
           name="altercationsWithOwner"
           control={control}
           rules={{ required: `Please select an option` }}
+          defaultValue=""
           render={({ field }) =>
-            <Form.Control as="select" {...field}>
+            <Form.Control as="select" {...field} value={field.value ?? ``}>
+              <option value="">Select an option</option>
               <option value="0">0-10 altercations (score = 0)</option>
               <option value="1">10+ altercations (score = 1)</option>
             </Form.Control>}
         />
         {errors.altercationsWithOwner &&
-          <Form.Text className="text-danger">
-            {errors.altercationsWithOwner.message}
-          </Form.Text>}
+          <Form.Text className="text-danger">{errors.altercationsWithOwner.message}</Form.Text>}
       </Form.Group>
 
       <Form.Group controlId="playsWellWithDogs">
@@ -139,16 +131,16 @@ export const NewAssessment = () => {
           name="playsWellWithDogs"
           control={control}
           rules={{ required: `Please select an option` }}
+          defaultValue=""
           render={({ field }) =>
-            <Form.Control as="select" {...field}>
-              <option value="0">No (score = 1)</option>
-              <option value="1">Yes (score = 0)</option>
+            <Form.Control as="select" {...field} value={field.value ?? ``}>
+              <option value="">Select an option</option>
+              <option value="0">Yes (score = 0)</option>
+              <option value="1">No (score = 1)</option>
             </Form.Control>}
         />
         {errors.playsWellWithDogs &&
-          <Form.Text className="text-danger">
-            {errors.playsWellWithDogs.message}
-          </Form.Text>}
+          <Form.Text className="text-danger">{errors.playsWellWithDogs.message}</Form.Text>}
       </Form.Group>
 
       <Form.Group controlId="hissesAtStrangers">
@@ -157,19 +149,19 @@ export const NewAssessment = () => {
           name="hissesAtStrangers"
           control={control}
           rules={{ required: `Please select an option` }}
+          defaultValue=""
           render={({ field }) =>
-            <Form.Control as="select" {...field}>
-              <option value="0">Yes (score = 1)</option>
-              <option value="1">No (score = 0)</option>
+            <Form.Control as="select" {...field} value={field.value ?? ``}>
+              <option value="">Select an option</option>
+              <option value="1">Yes (score = 1)</option>
+              <option value="0">No (score = 0)</option>
             </Form.Control>}
         />
         {errors.hissesAtStrangers &&
-          <Form.Text className="text-danger">
-            {errors.hissesAtStrangers.message}
-          </Form.Text>}
+          <Form.Text className="text-danger">{errors.hissesAtStrangers.message}</Form.Text>}
       </Form.Group>
 
-      {/* Show Score and Risk Level */}
+      {/* Score display */}
       <div className="mt-3">
         <h5>Total Score: {score}</h5>
         <h5>Risk Level: {riskLevel}</h5>
