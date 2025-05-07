@@ -16,14 +16,32 @@ InferCreationAttributes<Assessment>
   declare public score: number;
   declare public riskLevel: string;
   declare public catName: string;
-  declare public catDateOfBirth: string;
+  declare public catDob: string;
   declare public createdAt: CreationOptional<Date>;
   declare public updatedAt: CreationOptional<Date>;
   declare public deletedAt: Date | null;
 
   public static initModel(sequelize: Sequelize): typeof Assessment {
     Assessment.init({
-      /* eslint-disable sort-keys */
+      catDob: {
+        allowNull: false,
+        field: `cat_date_of_birth`,
+        type: DataTypes.DATE,
+      },
+      catName: {
+        allowNull: false,
+        field: `cat_name`,
+        type: DataTypes.STRING,
+      },
+      createdAt: {
+        allowNull: false,
+        field: `created_at`,
+        type: DataTypes.DATE,
+      },
+      deletedAt: {
+        field: `deleted_at`,
+        type: DataTypes.DATE,
+      },
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -34,40 +52,30 @@ InferCreationAttributes<Assessment>
       },
       instrumentType: {
         allowNull: false,
+        field: `instrument_type`,
+        type: DataTypes.STRING,
+      },
+      riskLevel: {
+        allowNull: false,
+        field: `risk_level`,
         type: DataTypes.STRING,
       },
       score: {
         allowNull: false,
+        field: `score`,
         type: DataTypes.INTEGER,
-      },
-      riskLevel: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      catName: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      catDateOfBirth: {
-        allowNull: false,
-        type: DataTypes.DATEONLY,
-      },
-      createdAt: {
-        allowNull: false,
-        type: DataTypes.DATE,
       },
       updatedAt: {
         allowNull: false,
+        field: `updated_at`,
         type: DataTypes.DATE,
       },
-      deletedAt: {
-        type: DataTypes.DATE,
-      },
-      /* eslint-enable sort-keys */
     }, {
+      paranoid: true,
       sequelize,
+      tableName: `assessments`,
+      timestamps: true,
     });
-
     return Assessment;
   }
 }

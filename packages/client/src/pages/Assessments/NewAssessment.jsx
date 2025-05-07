@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Controller, useForm } from 'react-hook-form';
 import { AssessmentService } from '../../services/AssessmentService';
 
 export const NewAssessment = () => {
-  const { control, formState: { errors }, handleSubmit } = useForm();
+  const { control, formState: { errors }, handleSubmit, watch } = useForm();
   const [ score, setScore ] = useState(0);
   const [ riskLevel, setRiskLevel ] = useState(``);
 
@@ -28,6 +28,26 @@ export const NewAssessment = () => {
     return `High`;
   };
 
+  const watchedValues = watch([
+    `previousContact`,
+    `altercationsWithCats`,
+    `altercationsWithOwner`,
+    `playsWellWithDogs`,
+    `hissesAtStrangers`,
+  ]);
+
+  useEffect(() => {
+    const total = calculateScore({
+      altercationsWithCats: watchedValues[1],
+      altercationsWithOwner: watchedValues[2],
+      hissesAtStrangers: watchedValues[4],
+      playsWellWithDogs: watchedValues[3],
+      previousContact: watchedValues[0],
+    });
+    setScore(total);
+    setRiskLevel(determineRiskLevel(total));
+  }, [ watchedValues ]);
+
   const onSubmit = async (data) => {
     const total = calculateScore(data);
     const risk = determineRiskLevel(total);
@@ -35,7 +55,6 @@ export const NewAssessment = () => {
     setRiskLevel(risk);
 
     try {
-      // Call the submit function from AssessmentService to make the Axios request
       const result = await AssessmentService.submit({
         altercationsWithCats: data.altercationsWithCats,
         altercationsWithOwner: data.altercationsWithOwner,
@@ -184,5 +203,4 @@ export const NewAssessment = () => {
       </Button>
     </Form>
   );
-
 };

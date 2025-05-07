@@ -8,11 +8,14 @@
   },
   "devDependencies": {
     "eslint-plugin-sort-keys-custom-order": "^2.2.1",
-    "npm-check-updates": "^16.5.1"
+    "npm-check-updates": "^16.5.1",
+    "sequelize-cli": "^6.6.3"
   },
   "dependencies": {
     "express": "^5.1.0",
     "react-bootstrap": "^2.10.9",
-    "react-hook-form": "^7.56.2"
+    "react-hook-form": "^7.56.2",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7"
   }
 }
