@@ -1,27 +1,27 @@
 'use strict';
-
 module.exports = {
-  async down(queryInterface) {
-    await queryInterface.dropTable(`assessments`);
-  },
 
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable(`assessments`, {
-      cat_date_of_birth: {
-        allowNull: false,
+      altercationsWithCats: {
+        type: Sequelize.INTEGER,
+      },
+      altercationsWithOwner: {
+        type: Sequelize.INTEGER,
+      },
+      catDob: {
         type: Sequelize.DATE,
       },
-      cat_name: {
-        allowNull: false,
+      catName: {
         type: Sequelize.STRING,
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
-        defaultValue: Sequelize.literal(`CURRENT_TIMESTAMP`),
+        defaultValue: Sequelize.fn(`NOW`),
         type: Sequelize.DATE,
       },
-      deleted_at: {
-        type: Sequelize.DATE,
+      hissesAtStrangers: {
+        type: Sequelize.INTEGER,
       },
       id: {
         allowNull: false,
@@ -29,21 +29,24 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      instrument_type: {
-        allowNull: false,
+      instrumentType: {
         type: Sequelize.STRING,
       },
-      risk_level: {
-        allowNull: false,
+      playsWellWithDogs: {
+        type: Sequelize.INTEGER,
+      },
+      previousContact: {
+        type: Sequelize.INTEGER,
+      },
+      riskLevel: {
         type: Sequelize.STRING,
       },
       score: {
-        allowNull: false,
         type: Sequelize.INTEGER,
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
-        defaultValue: Sequelize.literal(`CURRENT_TIMESTAMP`),
+        defaultValue: Sequelize.fn(`NOW`),
         type: Sequelize.DATE,
       },
     });

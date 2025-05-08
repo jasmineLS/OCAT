@@ -75,4 +75,18 @@ assessmentRouter.post(`/`, async (req, res, next) => {
   }
 });
 
+assessmentRouter.get(`/`, async (req, res, next) => {
+  try {
+    const results = await AssessmentService.getList();
+
+    ResponseHandler(
+      res,
+      `Fetched ${results.length} assessments`,
+      { results },
+    );
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = { assessmentRouter };

@@ -61,6 +61,7 @@ export const NewAssessment = () => {
         catDob: data.catDob,
         catName: data.catName,
         hissesAtStrangers: data.hissesAtStrangers,
+        instrumentType: data.instrumentType,
         playsWellWithDogs: data.playsWellWithDogs,
         previousContact: data.previousContact,
         riskLevel: risk,
@@ -76,6 +77,26 @@ export const NewAssessment = () => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Row>
+        <Col>
+          <Form.Group controlId="instrumentType">
+            <Form.Label>Instrument Type</Form.Label>
+            <Controller
+              name="instrumentType"
+              control={control}
+              rules={{ required: `Instrument type is required` }}
+              defaultValue=""
+              render={({ field }) =>
+                <Form.Control as="select" {...field}>
+                  <option value="">Select an instrument type</option>
+                  <option value="Behavioral">Behavioral</option>
+                  <option value="Psychological">Psychological</option>
+                  <option value="Medical">Medical</option>
+                </Form.Control>}
+            />
+            {errors.instrumentType &&
+              <Form.Text className="text-danger">{errors.instrumentType.message}</Form.Text>}
+          </Form.Group>
+        </Col>
         <Col>
           <Form.Group controlId="catName">
             <Form.Label>Cat Name</Form.Label>
@@ -93,7 +114,7 @@ export const NewAssessment = () => {
           <Form.Group controlId="catDob">
             <Form.Label>Cat Date of Birth</Form.Label>
             <Controller
-              name="catDob"
+              name="cat_Dob"
               control={control}
               rules={{ required: `Date of birth is required` }}
               defaultValue=""
