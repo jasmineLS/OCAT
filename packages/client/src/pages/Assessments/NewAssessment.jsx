@@ -114,7 +114,7 @@ export const NewAssessment = () => {
           <Form.Group controlId="catDob">
             <Form.Label>Cat Date of Birth</Form.Label>
             <Controller
-              name="cat_Dob"
+              name="catDob"
               control={control}
               rules={{ required: `Date of birth is required` }}
               defaultValue=""
