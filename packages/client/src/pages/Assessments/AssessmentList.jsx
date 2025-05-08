@@ -1,23 +1,107 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTable } from 'react-table';
 import { AssessmentService } from '../../services/AssessmentService';
 
 export const AssessmentList = () => {
   const [ assessments, setAssessments ] = useState([]);
 
-  // fetch all assessments using the AssessmentService.getList function from OCAT/client/services/AssessmentService.js
   useEffect(() => {
     const fetchAssessments = async () => {
-      setAssessments(await AssessmentService.getList());
+      try {
+        const data = await AssessmentService.getList();
+        setAssessments(Array.isArray(data) ? data : []); // Ensure data is an array
+      } catch (error) {
+        console.error(`Error fetching assessments:`, error);
+        setAssessments([]);
+      }
     };
     fetchAssessments();
   }, []);
 
+  const columns = useMemo(() => [
+    { Header: `ID`, accessor: `id` },
+    { Header: `Cat Name`, accessor: `cat_name` },
+    { Header: `Date of Birth`, accessor: `cat_dob` },
+    { Header: `Instrument Type`, accessor: `instrument_type` },
+    { Header: `Previous Contact`, accessor: `previous_contact` },
+    { Header: `Altercations with Cats`, accessor: `altercations_with_cats` },
+    { Header: `Altercations with Owner`, accessor: `altercations_with_owner` },
+    { Header: `Plays Well with Dogs`, accessor: `plays_well_with_dogs` },
+    { Header: `Hisses at Strangers`, accessor: `hisses_at_strangers` },
+    { Header: `Score`, accessor: `score` },
+    { Header: `Risk Level`, accessor: `risk_level` },
+    { Header: `Created At`, accessor: `created_at` },
+  ], []);
+
+  const {
+    getTableBodyProps,
+    getTableProps,
+    headerGroups,
+    prepareRow,
+    rows,
+  } = useTable({ columns, data: assessments });
+
   return (
-    <div>
-      {/*
-          List goes here
-          Please use the library react-table https://www.npmjs.com/package/react-table
-      */}
+    <div
+      className="container mt-4"
+      style={{
+        alignItems: `center`,
+        display: `flex`,
+        flexDirection: `column`,
+        justifyContent: `center`,
+      }}
+    >
+      <h2 style={{ marginBottom: `20px` }}>Assessment List</h2>
+      <table
+        {...getTableProps()}
+        className="table table-bordered table-striped"
+        style={{ maxWidth: `1200px`, textAlign: `center`, width: `100%` }}
+      >
+        <thead>
+          {headerGroups.map((headerGroup, i) =>
+            <tr {...headerGroup.getHeaderGroupProps()} key={`header-${i}`}>
+              {headerGroup.headers.map((column, j) =>
+                <th
+                  {...column.getHeaderProps()}
+                  key={`col-${j}`}
+                  style={{
+                    padding: `10px`,
+                    textAlign: `center`,
+                    verticalAlign: `middle`,
+                  }}
+                >
+                  {column.render(`Header`)}
+                </th>)}
+            </tr>)}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.length > 0 ?
+            rows.map((row, i) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()} key={row.original?.id || `row-${i}`}>
+                  {row.cells.map((cell) =>
+                    <td
+                      {...cell.getCellProps()}
+                      key={`${row.original?.id || i}-${cell.column.id}`}
+                      style={{ padding: `10px` }}
+                    >
+                      {cell.render(`Cell`)}
+                    </td>)}
+                </tr>
+              );
+            }) :
+            <tr>
+              <td
+                colSpan={columns.length}
+                className="text-center"
+                style={{ padding: `20px` }}
+              >
+                No assessments found.
+              </td>
+            </tr>}
+        </tbody>
+      </table>
     </div>
   );
 };

@@ -11,6 +11,7 @@ export const Navigation = () =>
           <Nav className="me-auto">
             <Nav.Link href="/">Dashboard</Nav.Link>
             <Nav.Link href="/assessment/new">New Assessment</Nav.Link>
+            <Nav.Link href="/assessment/list">View Assessments</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

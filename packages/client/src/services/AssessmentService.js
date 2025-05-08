@@ -16,14 +16,8 @@ export class AssessmentService {
 
   static async getList() {
     try {
-      // Choose the correct method, url, and data to send
-      // in a request to the express packages/api/src/routes/assessment.js
-      // NOTE: the http.config file automatically adds /api to the front of your url
-      const response = await Axios.get(`/assessment`, {
-        params: {
-        },
-      });
-      return response.data.data.assessment;
+      const response = await Axios.get(`/assessment`);
+      return response.data; // Ensure this matches the API response structure
     } catch (err) {
       const statusText = err?.response?.statusText || `Request Failed`;
       const message = err?.response?.data?.message || err?.message || `Unknown error`;
@@ -31,30 +25,3 @@ export class AssessmentService {
     }
   }
 }
-
-/* export class AssessmentService {
-  static async submit(assessment) {
-    try {
-      const response = await Axios.post(`/assessment`, { assessment });
-      return response.data;
-    } catch (err) {
-      throw new Error(`${err?.response?.statusText || `Error`} - ${err?.response?.data?.message || err.message}`);
-    }
-  }
-
-  static async getList() {
-    try {
-      const response = await Axios.get(`/assessment`, {
-        params: {
-          // Add query parameters here if needed
-        },
-      });
-
-      return response.data.data.assessment;
-    } catch (err) {
-      throw new Error(
-        `${err?.response?.statusText || `Error`} - ${err?.response?.data?.message || err.message}`
-      );
-    }
-  }
-} */
