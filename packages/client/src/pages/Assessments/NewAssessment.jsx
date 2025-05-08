@@ -19,12 +19,8 @@ export const NewAssessment = () => {
   };
 
   const determineRiskLevel = (totalScore) => {
-    if (totalScore <= 2) {
-      return `Low`;
-    }
-    if (totalScore <= 4) {
-      return `Medium`;
-    }
+    if (totalScore <= 2) { return `Low`; }
+    if (totalScore <= 4) { return `Medium`; }
     return `High`;
   };
 
@@ -56,18 +52,10 @@ export const NewAssessment = () => {
 
     try {
       const result = await AssessmentService.submit({
-        altercationsWithCats: data.altercationsWithCats,
-        altercationsWithOwner: data.altercationsWithOwner,
-        catDob: data.catDob,
-        catName: data.catName,
-        hissesAtStrangers: data.hissesAtStrangers,
-        instrumentType: data.instrumentType,
-        playsWellWithDogs: data.playsWellWithDogs,
-        previousContact: data.previousContact,
+        ...data,
         riskLevel: risk,
         score: total,
       });
-
       console.log(`Assessment submitted successfully:`, result);
     } catch (error) {
       console.error(`Error submitting assessment:`, error);
@@ -93,8 +81,7 @@ export const NewAssessment = () => {
                   <option value="Medical">Medical</option>
                 </Form.Control>}
             />
-            {errors.instrumentType &&
-              <Form.Text className="text-danger">{errors.instrumentType.message}</Form.Text>}
+            {errors.instrumentType && <Form.Text className="text-danger">{errors.instrumentType.message}</Form.Text>}
           </Form.Group>
         </Col>
         <Col>
@@ -125,7 +112,7 @@ export const NewAssessment = () => {
         </Col>
       </Row>
 
-      {/* Dropdown fields */}
+      {/* Radio groups */}
       <Form.Group controlId="previousContact">
         <Form.Label>Previous contact with the Cat Judicial System</Form.Label>
         <Controller
@@ -134,11 +121,24 @@ export const NewAssessment = () => {
           rules={{ required: `Please select an option` }}
           defaultValue=""
           render={({ field }) =>
-            <Form.Control as="select" {...field} value={field.value ?? ``}>
-              <option value="">Select an option</option>
-              <option value="0">No (score = 0)</option>
-              <option value="1">Yes (score = 1)</option>
-            </Form.Control>}
+            <>
+              <Form.Check
+                type="radio"
+                label="No (score = 0)"
+                value="0"
+                checked={field.value === `0`}
+                onChange={field.onChange}
+                name={field.name}
+              />
+              <Form.Check
+                type="radio"
+                label="Yes (score = 1)"
+                value="1"
+                checked={field.value === `1`}
+                onChange={field.onChange}
+                name={field.name}
+              />
+            </>}
         />
         {errors.previousContact && <Form.Text className="text-danger">{errors.previousContact.message}</Form.Text>}
       </Form.Group>
@@ -151,11 +151,24 @@ export const NewAssessment = () => {
           rules={{ required: `Please select an option` }}
           defaultValue=""
           render={({ field }) =>
-            <Form.Control as="select" {...field} value={field.value ?? ``}>
-              <option value="">Select an option</option>
-              <option value="0">0-3 altercations (score = 0)</option>
-              <option value="1">3+ altercations (score = 1)</option>
-            </Form.Control>}
+            <>
+              <Form.Check
+                type="radio"
+                label="0-3 altercations (score = 0)"
+                value="0"
+                checked={field.value === `0`}
+                onChange={field.onChange}
+                name={field.name}
+              />
+              <Form.Check
+                type="radio"
+                label="3+ altercations (score = 1)"
+                value="1"
+                checked={field.value === `1`}
+                onChange={field.onChange}
+                name={field.name}
+              />
+            </>}
         />
         {errors.altercationsWithCats &&
           <Form.Text className="text-danger">{errors.altercationsWithCats.message}</Form.Text>}
@@ -169,11 +182,24 @@ export const NewAssessment = () => {
           rules={{ required: `Please select an option` }}
           defaultValue=""
           render={({ field }) =>
-            <Form.Control as="select" {...field} value={field.value ?? ``}>
-              <option value="">Select an option</option>
-              <option value="0">0-10 altercations (score = 0)</option>
-              <option value="1">10+ altercations (score = 1)</option>
-            </Form.Control>}
+            <>
+              <Form.Check
+                type="radio"
+                label="0-10 altercations (score = 0)"
+                value="0"
+                checked={field.value === `0`}
+                onChange={field.onChange}
+                name={field.name}
+              />
+              <Form.Check
+                type="radio"
+                label="10+ altercations (score = 1)"
+                value="1"
+                checked={field.value === `1`}
+                onChange={field.onChange}
+                name={field.name}
+              />
+            </>}
         />
         {errors.altercationsWithOwner &&
           <Form.Text className="text-danger">{errors.altercationsWithOwner.message}</Form.Text>}
@@ -187,11 +213,24 @@ export const NewAssessment = () => {
           rules={{ required: `Please select an option` }}
           defaultValue=""
           render={({ field }) =>
-            <Form.Control as="select" {...field} value={field.value ?? ``}>
-              <option value="">Select an option</option>
-              <option value="0">Yes (score = 0)</option>
-              <option value="1">No (score = 1)</option>
-            </Form.Control>}
+            <>
+              <Form.Check
+                type="radio"
+                label="Yes (score = 0)"
+                value="0"
+                checked={field.value === `0`}
+                onChange={field.onChange}
+                name={field.name}
+              />
+              <Form.Check
+                type="radio"
+                label="No (score = 1)"
+                value="1"
+                checked={field.value === `1`}
+                onChange={field.onChange}
+                name={field.name}
+              />
+            </>}
         />
         {errors.playsWellWithDogs && <Form.Text className="text-danger">{errors.playsWellWithDogs.message}</Form.Text>}
       </Form.Group>
@@ -204,19 +243,32 @@ export const NewAssessment = () => {
           rules={{ required: `Please select an option` }}
           defaultValue=""
           render={({ field }) =>
-            <Form.Control as="select" {...field} value={field.value ?? ``}>
-              <option value="">Select an option</option>
-              <option value="1">Yes (score = 1)</option>
-              <option value="0">No (score = 0)</option>
-            </Form.Control>}
+            <>
+              <Form.Check
+                type="radio"
+                label="Yes (score = 1)"
+                value="1"
+                checked={field.value === `1`}
+                onChange={field.onChange}
+                name={field.name}
+              />
+              <Form.Check
+                type="radio"
+                label="No (score = 0)"
+                value="0"
+                checked={field.value === `0`}
+                onChange={field.onChange}
+                name={field.name}
+              />
+            </>}
         />
         {errors.hissesAtStrangers && <Form.Text className="text-danger">{errors.hissesAtStrangers.message}</Form.Text>}
       </Form.Group>
 
       {/* Score display */}
       <div className="mt-3">
-        <h5>Total Score: {score}</h5>
-        <h5>Risk Level: {riskLevel}</h5>
+        <h5><strong>Total Score: {score}</strong></h5>
+        <h5><strong>Risk Level: {riskLevel}</strong></h5>
       </div>
 
       <Button variant="primary" type="submit">
