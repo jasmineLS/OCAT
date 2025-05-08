@@ -64,10 +64,10 @@ export const NewAssessment = () => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Row>
+      <Row className="mb-3">
         <Col>
           <Form.Group controlId="instrumentType">
-            <Form.Label>Instrument Type</Form.Label>
+            <Form.Label><strong>Instrument Type</strong></Form.Label>
             <Controller
               name="instrumentType"
               control={control}
@@ -86,7 +86,7 @@ export const NewAssessment = () => {
         </Col>
         <Col>
           <Form.Group controlId="catName">
-            <Form.Label>Cat Name</Form.Label>
+            <Form.Label><strong>Cat Name</strong></Form.Label>
             <Controller
               name="catName"
               control={control}
@@ -99,7 +99,7 @@ export const NewAssessment = () => {
         </Col>
         <Col>
           <Form.Group controlId="catDob">
-            <Form.Label>Cat Date of Birth</Form.Label>
+            <Form.Label><strong>Cat Date of Birth</strong></Form.Label>
             <Controller
               name="catDob"
               control={control}
@@ -112,9 +112,8 @@ export const NewAssessment = () => {
         </Col>
       </Row>
 
-      {/* Radio groups */}
-      <Form.Group controlId="previousContact">
-        <Form.Label>Previous contact with the Cat Judicial System</Form.Label>
+      <Form.Group controlId="previousContact" className="mb-3">
+        <Form.Label><strong>Previous contact with the Cat Judicial System</strong></Form.Label>
         <Controller
           name="previousContact"
           control={control}
@@ -143,8 +142,8 @@ export const NewAssessment = () => {
         {errors.previousContact && <Form.Text className="text-danger">{errors.previousContact.message}</Form.Text>}
       </Form.Group>
 
-      <Form.Group controlId="altercationsWithCats">
-        <Form.Label>Physical altercations with other cats</Form.Label>
+      <Form.Group controlId="altercationsWithCats" className="mb-3">
+        <Form.Label><strong>Physical altercations with other cats</strong></Form.Label>
         <Controller
           name="altercationsWithCats"
           control={control}
@@ -174,8 +173,8 @@ export const NewAssessment = () => {
           <Form.Text className="text-danger">{errors.altercationsWithCats.message}</Form.Text>}
       </Form.Group>
 
-      <Form.Group controlId="altercationsWithOwner">
-        <Form.Label>Physical altercations with owner</Form.Label>
+      <Form.Group controlId="altercationsWithOwner" className="mb-3">
+        <Form.Label><strong>Physical altercations with owner</strong></Form.Label>
         <Controller
           name="altercationsWithOwner"
           control={control}
@@ -205,8 +204,8 @@ export const NewAssessment = () => {
           <Form.Text className="text-danger">{errors.altercationsWithOwner.message}</Form.Text>}
       </Form.Group>
 
-      <Form.Group controlId="playsWellWithDogs">
-        <Form.Label>Plays well with dogs</Form.Label>
+      <Form.Group controlId="playsWellWithDogs" className="mb-3">
+        <Form.Label><strong>Plays well with dogs</strong></Form.Label>
         <Controller
           name="playsWellWithDogs"
           control={control}
@@ -235,8 +234,8 @@ export const NewAssessment = () => {
         {errors.playsWellWithDogs && <Form.Text className="text-danger">{errors.playsWellWithDogs.message}</Form.Text>}
       </Form.Group>
 
-      <Form.Group controlId="hissesAtStrangers">
-        <Form.Label>Hisses at strangers</Form.Label>
+      <Form.Group controlId="hissesAtStrangers" className="mb-3">
+        <Form.Label><strong>Hisses at strangers</strong></Form.Label>
         <Controller
           name="hissesAtStrangers"
           control={control}
@@ -266,14 +265,16 @@ export const NewAssessment = () => {
       </Form.Group>
 
       {/* Score display */}
-      <div className="mt-3">
-        <h5><strong>Total Score: {score}</strong></h5>
-        <h5><strong>Risk Level: {riskLevel}</strong></h5>
+      <div className="mt-4">
+        <h6><strong>Total Score: {score}</strong></h6>
+        <h6><strong>Risk Level: {riskLevel}</strong></h6>
       </div>
 
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
+      <div className="mt-3">
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </div>
     </Form>
   );
 };
