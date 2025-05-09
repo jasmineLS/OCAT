@@ -5,29 +5,31 @@ import { AssessmentService } from '../../services/AssessmentService';
 export const AssessmentList = () => {
   const [ assessments, setAssessments ] = useState([]);
 
+  const fetchAssessments = async () => {
+    try {
+      const data = await AssessmentService.getList();
+      console.log(`Fetched assessments for table:`, data);
+      setAssessments(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error(`Error fetching assessments:`, error.message);
+      setAssessments([]);
+    }
+  };
+
   useEffect(() => {
-    const fetchAssessments = async () => {
-      try {
-        const data = await AssessmentService.getList();
-        setAssessments(Array.isArray(data) ? data : []); // Ensure data is an array
-      } catch (error) {
-        console.error(`Error fetching assessments:`, error);
-        setAssessments([]);
-      }
-    };
     fetchAssessments();
   }, []);
 
   const columns = useMemo(() => [
     { Header: `ID`, accessor: `id` },
-    { Header: `Cat Name`, accessor: `cat_name` },
-    { Header: `Date of Birth`, accessor: `cat_date_of_birth` },
-    { Header: `Instrument Type`, accessor: `instrument_type` },
+    { Header: `Cat Name`, accessor: `catName` },
+    { Header: `Date of Birth`, accessor: `catDob` },
+    { Header: `Instrument Type`, accessor: `instrumentType` },
     { Header: `Score`, accessor: `score` },
-    { Header: `Risk Level`, accessor: `risk_level` },
-    { Header: `Created At`, accessor: `created_at` },
-    { Header: `Updated At`, accessor: `updated_at` },
-    { Header: `Deleted At`, accessor: `deleted_at` },
+    { Header: `Risk Level`, accessor: `riskLevel` },
+    { Header: `Created At`, accessor: `createdAt` },
+    { Header: `Updated At`, accessor: `updatedAt` },
+    { Header: `Deleted At`, accessor: `deletedAt` },
   ], []);
 
   const {
@@ -36,7 +38,11 @@ export const AssessmentList = () => {
     headerGroups,
     prepareRow,
     rows,
-  } = useTable({ columns, data: assessments });
+  } = useTable({
+    columns,
+    data: assessments,
+    getRowId: (row, relativeIndex) => row.id ?? `row-${relativeIndex}`,
+  });
 
   return (
     <div
@@ -55,12 +61,11 @@ export const AssessmentList = () => {
         style={{ maxWidth: `1200px`, textAlign: `center`, width: `100%` }}
       >
         <thead>
-          {headerGroups.map((headerGroup, i) =>
-            <tr {...headerGroup.getHeaderGroupProps()} key={`header-${i}`}>
-              {headerGroup.headers.map((column, j) =>
+          {headerGroups.map((headerGroup) =>
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) =>
                 <th
                   {...column.getHeaderProps()}
-                  key={`col-${j}`}
                   style={{
                     padding: `10px`,
                     textAlign: `center`,
@@ -73,14 +78,13 @@ export const AssessmentList = () => {
         </thead>
         <tbody {...getTableBodyProps()}>
           {rows.length > 0 ?
-            rows.map((row, i) => {
+            rows.map((row) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()} key={row.original?.id || `row-${i}`}>
+                <tr {...row.getRowProps()}>
                   {row.cells.map((cell) =>
                     <td
                       {...cell.getCellProps()}
-                      key={`${row.original?.id || i}-${cell.column.id}`}
                       style={{ padding: `10px` }}
                     >
                       {cell.render(`Cell`)}
@@ -89,11 +93,7 @@ export const AssessmentList = () => {
               );
             }) :
             <tr>
-              <td
-                colSpan={columns.length}
-                className="text-center"
-                style={{ padding: `20px` }}
-              >
+              <td colSpan={columns.length} className="text-center" style={{ padding: `20px` }}>
                 No assessments found.
               </td>
             </tr>}

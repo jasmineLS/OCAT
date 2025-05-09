@@ -71,7 +71,7 @@ InferCreationAttributes<Assessment>
         type: DataTypes.DATE,
       },
     }, {
-      paranoid: true,
+      paranoid: false,
       sequelize,
       tableName: `assessments`,
       timestamps: true,

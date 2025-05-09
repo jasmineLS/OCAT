@@ -1,13 +1,11 @@
-import Axios from '../utils/http.config'; // Axios configuration
+import Axios from '../utils/http.config';
 
 export class AssessmentService {
   static async submit(assessment) {
     try {
-      // Send assessment data directly in the request body (no extra object wrapping)
       const response = await Axios.post(`/assessment`, assessment);
-      return response.data; // Return the response data to the caller
+      return response.data.result;
     } catch (err) {
-      // Handle errors
       const statusText = err?.response?.statusText || `Request Failed`;
       const message = err?.response?.data?.message || err?.message || `Unknown error`;
       throw new Error(`${statusText} - ${message}`);
@@ -16,8 +14,9 @@ export class AssessmentService {
 
   static async getList() {
     try {
-      const response = await Axios.get(`/assessment`);
-      return response.data; // Ensure this matches the API response structure
+      const response = await Axios.get(`/assessment/list`);
+      console.log(`Fetched assessments from API:`, response.data?.data?.results);
+      return response.data?.data?.results || [];
     } catch (err) {
       const statusText = err?.response?.statusText || `Request Failed`;
       const message = err?.response?.data?.message || err?.message || `Unknown error`;
