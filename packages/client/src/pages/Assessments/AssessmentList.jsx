@@ -21,16 +21,13 @@ export const AssessmentList = () => {
   const columns = useMemo(() => [
     { Header: `ID`, accessor: `id` },
     { Header: `Cat Name`, accessor: `cat_name` },
-    { Header: `Date of Birth`, accessor: `cat_dob` },
+    { Header: `Date of Birth`, accessor: `cat_date_of_birth` },
     { Header: `Instrument Type`, accessor: `instrument_type` },
-    { Header: `Previous Contact`, accessor: `previous_contact` },
-    { Header: `Altercations with Cats`, accessor: `altercations_with_cats` },
-    { Header: `Altercations with Owner`, accessor: `altercations_with_owner` },
-    { Header: `Plays Well with Dogs`, accessor: `plays_well_with_dogs` },
-    { Header: `Hisses at Strangers`, accessor: `hisses_at_strangers` },
     { Header: `Score`, accessor: `score` },
     { Header: `Risk Level`, accessor: `risk_level` },
     { Header: `Created At`, accessor: `created_at` },
+    { Header: `Updated At`, accessor: `updated_at` },
+    { Header: `Deleted At`, accessor: `deleted_at` },
   ], []);
 
   const {
