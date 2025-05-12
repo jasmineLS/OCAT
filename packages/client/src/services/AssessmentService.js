@@ -6,32 +6,25 @@ export class AssessmentService {
       const response = await Axios.post(`/assessment`, assessment);
       return response.data.result;
     } catch (err) {
-      const statusText = err?.response?.statusText || `Request Failed`;
-      const message = err?.response?.data?.message || err?.message || `Unknown error`;
-      throw new Error(`${statusText} - ${message}`);
+      throw new Error(err?.response?.data?.message || err.message || `Unknown error`);
     }
   }
 
   static async getList() {
     try {
       const response = await Axios.get(`/assessment/list`);
-      console.log(`Fetched assessments from API:`, response.data?.data?.results);
       return response.data?.data?.results || [];
     } catch (err) {
-      const statusText = err?.response?.statusText || `Request Failed`;
-      const message = err?.response?.data?.message || err?.message || `Unknown error`;
-      throw new Error(`${statusText} - ${message}`);
+      throw new Error(err?.response?.data?.message || err.message || `Unknown error`);
     }
   }
 
   static async getFilteredList(filters) {
     try {
-      const response = await Axios.get(`/assessment/list`, { params: filters }); // Corrected endpoint
-      console.log(`Fetched filtered assessments from API:`, response.data.rows); // Log the response
+      const response = await Axios.get(`/assessment/filtered`, { params: filters });
       return response.data.rows; // Return the rows from the response
     } catch (error) {
-      console.error(`Error fetching filtered assessments:`, error.message);
-      throw error;
+      throw new Error(error?.response?.data?.message || error.message || `Unknown error`);
     }
   }
 }

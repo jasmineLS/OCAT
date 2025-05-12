@@ -4,7 +4,6 @@ import { SiteWrapper } from './components';
 import { DashboardBulletin } from './pages/Dashboard/DashboardBulletin.jsx';
 import { NewAssessment } from './pages/Assessments/NewAssessment.jsx';
 import { AssessmentList } from './pages/Assessments/AssessmentList';
-import { Login } from './pages/Login/Login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Create a context for login state
@@ -32,11 +31,12 @@ const App = () => {
     <LoginContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
       <Router>
         <Routes>
-          {/* Login page is displayed first */}
+          {/* Remove or replace the Login route */}
+          {/* <Route path="/login" component={Login} /> */}
           <Route
             path="/"
             element={
-              isLoggedIn ? <Navigate to="/dashboard" /> : <Login onLogin={handleLogin} />
+              isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/dashboard" />
             }
           />
 

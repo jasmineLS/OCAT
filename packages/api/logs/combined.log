@@ -1,0 +1,88 @@
+[2025-05-12T20:40:18.008Z] INFO: Incoming filters:
+[2025-05-12T20:40:18.009Z] INFO: Pagination details:
+[2025-05-12T20:40:18.010Z] INFO: Filters received:
+[2025-05-12T20:40:18.010Z] INFO: Generated WHERE clause:
+[2025-05-12T20:40:18.074Z] INFO: Database query result:
+[2025-05-12T20:40:18.074Z] INFO: Query results:
+[2025-05-12T20:40:18.312Z] INFO: Incoming filters:
+[2025-05-12T20:40:18.312Z] INFO: Pagination details:
+[2025-05-12T20:40:18.312Z] INFO: Filters received:
+[2025-05-12T20:40:18.312Z] INFO: Generated WHERE clause:
+[2025-05-12T20:40:18.319Z] INFO: Database query result:
+[2025-05-12T20:40:18.319Z] INFO: Query results:
+[2025-05-12T20:40:18.434Z] INFO: Incoming filters:
+[2025-05-12T20:40:18.434Z] INFO: Pagination details:
+[2025-05-12T20:40:18.434Z] INFO: Filters received:
+[2025-05-12T20:40:18.435Z] INFO: Generated WHERE clause:
+[2025-05-12T20:40:18.438Z] INFO: Database query result:
+[2025-05-12T20:40:18.439Z] INFO: Query results:
+[2025-05-12T20:40:40.836Z] INFO: Incoming filters:
+[2025-05-12T20:40:40.836Z] INFO: Pagination details:
+[2025-05-12T20:40:40.836Z] INFO: Filters received:
+[2025-05-12T20:40:40.836Z] INFO: Generated WHERE clause:
+[2025-05-12T20:40:40.849Z] INFO: Database query result:
+[2025-05-12T20:40:40.849Z] INFO: Query results:
+[2025-05-12T20:40:41.028Z] INFO: Incoming filters:
+[2025-05-12T20:40:41.028Z] INFO: Pagination details:
+[2025-05-12T20:40:41.028Z] INFO: Filters received:
+[2025-05-12T20:40:41.028Z] INFO: Generated WHERE clause:
+[2025-05-12T20:40:41.032Z] INFO: Database query result:
+[2025-05-12T20:40:41.032Z] INFO: Query results:
+[2025-05-12T20:40:41.177Z] INFO: Incoming filters:
+[2025-05-12T20:40:41.178Z] INFO: Pagination details:
+[2025-05-12T20:40:41.178Z] INFO: Filters received:
+[2025-05-12T20:40:41.178Z] INFO: Generated WHERE clause:
+[2025-05-12T20:40:41.181Z] INFO: Database query result:
+[2025-05-12T20:40:41.182Z] INFO: Query results:
+[2025-05-12T20:40:41.214Z] INFO: Incoming filters:
+[2025-05-12T20:40:41.214Z] INFO: Pagination details:
+[2025-05-12T20:40:41.215Z] INFO: Filters received:
+[2025-05-12T20:40:41.215Z] INFO: Generated WHERE clause:
+[2025-05-12T20:40:41.218Z] INFO: Database query result:
+[2025-05-12T20:40:41.218Z] INFO: Query results:
+[2025-05-12T20:40:43.769Z] INFO: Incoming filters:
+[2025-05-12T20:40:43.769Z] INFO: Pagination details:
+[2025-05-12T20:40:43.769Z] INFO: Filters received:
+[2025-05-12T20:40:43.769Z] INFO: Generated WHERE clause:
+[2025-05-12T20:40:43.771Z] INFO: Database query result:
+[2025-05-12T20:40:43.772Z] INFO: Query results:
+[2025-05-12T20:41:19.677Z] INFO: Incoming filters:
+[2025-05-12T20:41:19.678Z] INFO: Pagination details:
+[2025-05-12T20:41:19.678Z] INFO: Filters received and WHERE clause generated:
+[2025-05-12T20:41:19.721Z] INFO: Query results:
+[2025-05-12T20:41:19.721Z] INFO: Query results:
+[2025-05-12T20:41:21.330Z] INFO: Incoming filters:
+[2025-05-12T20:41:21.331Z] INFO: Pagination details:
+[2025-05-12T20:41:21.331Z] INFO: Filters received and WHERE clause generated:
+[2025-05-12T20:41:21.336Z] INFO: Query results:
+[2025-05-12T20:41:21.336Z] INFO: Query results:
+[2025-05-12T20:41:21.515Z] INFO: Incoming filters:
+[2025-05-12T20:41:21.515Z] INFO: Pagination details:
+[2025-05-12T20:41:21.515Z] INFO: Filters received and WHERE clause generated:
+[2025-05-12T20:41:21.517Z] INFO: Query results:
+[2025-05-12T20:41:21.517Z] INFO: Query results:
+[2025-05-12T20:41:21.652Z] INFO: Incoming filters:
+[2025-05-12T20:41:21.652Z] INFO: Pagination details:
+[2025-05-12T20:41:21.652Z] INFO: Filters received and WHERE clause generated:
+[2025-05-12T20:41:21.654Z] INFO: Query results:
+[2025-05-12T20:41:21.654Z] INFO: Query results:
+[2025-05-12T20:41:21.674Z] INFO: Incoming filters:
+[2025-05-12T20:41:21.674Z] INFO: Pagination details:
+[2025-05-12T20:41:21.674Z] INFO: Filters received and WHERE clause generated:
+[2025-05-12T20:41:21.676Z] INFO: Query results:
+[2025-05-12T20:41:21.676Z] INFO: Query results:
+[2025-05-12T20:41:23.212Z] INFO: Incoming filters:
+[2025-05-12T20:41:23.213Z] INFO: Pagination details:
+[2025-05-12T20:41:23.213Z] INFO: Filters received and WHERE clause generated:
+[2025-05-12T20:41:23.218Z] INFO: Query results:
+[2025-05-12T20:41:23.218Z] INFO: Query results:
+[2025-05-12T20:41:23.763Z] INFO: Incoming filters:
+[2025-05-12T20:41:23.764Z] INFO: Pagination details:
+[2025-05-12T20:41:23.764Z] INFO: Filters received and WHERE clause generated:
+[2025-05-12T20:41:23.767Z] INFO: Query results:
+[2025-05-12T20:41:23.768Z] INFO: Query results:
+[2025-05-12T20:41:24.534Z] INFO: Incoming filters:
+[2025-05-12T20:41:24.534Z] INFO: Pagination details:
+[2025-05-12T20:41:24.534Z] INFO: Filters received and WHERE clause generated:
+[2025-05-12T20:41:24.536Z] INFO: Query results:
+[2025-05-12T20:41:24.536Z] INFO: Query results:

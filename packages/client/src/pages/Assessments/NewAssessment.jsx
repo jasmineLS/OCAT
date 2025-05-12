@@ -57,12 +57,10 @@ export const NewAssessment = () => {
         riskLevel: risk,
         score: total,
       });
-      console.log(`Assessment submitted successfully:`, result);
       setNotification(`Assessment submitted successfully!`); // Set success notification
       setTimeout(() => setNotification(``), 3000); // Clear notification after 3 seconds
       reset(); // Reset the form
     } catch (error) {
-      console.error(`Error submitting assessment:`, error);
       setNotification(`Error submitting assessment.`); // Set error notification
       setTimeout(() => setNotification(``), 3000); // Clear notification after 3 seconds
     }
