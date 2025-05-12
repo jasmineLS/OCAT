@@ -58,7 +58,7 @@ export const AssessmentList = () => {
       <table
         {...getTableProps()}
         className="table table-bordered table-striped"
-        style={{ maxWidth: `1200px`, textAlign: `center`, width: `100%` }}
+        style={{ maxWidth: `1500px`, textAlign: `center`, width: `100%` }}
       >
         <thead>
           {headerGroups.map((headerGroup) =>
