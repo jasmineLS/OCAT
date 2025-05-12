@@ -23,4 +23,15 @@ export class AssessmentService {
       throw new Error(`${statusText} - ${message}`);
     }
   }
+
+  static async getFilteredList(filters) {
+    try {
+      const response = await Axios.get(`/assessment/list`, { params: filters }); // Corrected endpoint
+      console.log(`Fetched filtered assessments from API:`, response.data.rows); // Log the response
+      return response.data.rows; // Return the rows from the response
+    } catch (error) {
+      console.error(`Error fetching filtered assessments:`, error.message);
+      throw error;
+    }
+  }
 }
