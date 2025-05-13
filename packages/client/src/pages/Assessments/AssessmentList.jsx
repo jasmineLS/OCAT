@@ -3,25 +3,33 @@ import { useTable } from 'react-table';
 import { AssessmentService } from '../../services/AssessmentService';
 
 export const AssessmentList = () => {
-  const [ catName, setCatName ] = useState(``);
+  const [ filters, setFilters ] = useState({
+    catDob: ``,
+    catName: ``,
+    instrumentType: ``,
+    riskLevel: ``,
+  });
   const [ assessments, setAssessments ] = useState([]);
 
   const fetchAssessments = useCallback(async () => {
     try {
-      const filters = catName.trim() ? { catName } : {};
       const data = await AssessmentService.getFilteredList(filters);
       setAssessments(Array.isArray(data) ? data : []);
     } catch (error) {
       setAssessments([]);
     }
-  }, [ catName ]);
+  }, [ filters ]);
 
   useEffect(() => {
     fetchAssessments();
   }, [ fetchAssessments ]);
 
   const handleFilterChange = (e) => {
-    setCatName(e.target.value);
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
   };
 
   const columns = useMemo(() => [
@@ -59,10 +67,40 @@ export const AssessmentList = () => {
           type="text"
           name="catName"
           placeholder="Filter by Cat Name"
-          value={catName}
+          value={filters.catName}
           onChange={handleFilterChange}
           style={{ marginRight: `10px`, padding: `5px`, width: `200px` }}
         />
+        <input
+          type="date"
+          name="catDob"
+          placeholder="Filter by Date of Birth"
+          value={filters.catDob}
+          onChange={handleFilterChange}
+          style={{ marginRight: `10px`, padding: `5px`, width: `200px` }}
+        />
+        <select
+          name="instrumentType"
+          value={filters.instrumentType}
+          onChange={handleFilterChange}
+          style={{ marginRight: `10px`, padding: `5px`, width: `200px` }}
+        >
+          <option value="">Filter by Instrument Type</option>
+          <option value="Behavioral">Behavioral</option>
+          <option value="Psychological">Psychological</option>
+          <option value="Medical">Medical</option>
+        </select>
+        <select
+          name="riskLevel"
+          value={filters.riskLevel}
+          onChange={handleFilterChange}
+          style={{ marginRight: `10px`, padding: `5px`, width: `200px` }}
+        >
+          <option value="">Filter by Risk Level</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
         <button onClick={fetchAssessments} style={{ padding: `5px 10px` }}>
           Apply Filter
         </button>
