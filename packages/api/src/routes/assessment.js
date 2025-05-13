@@ -1,7 +1,7 @@
 const { AssessmentService } = require(`../microservices`);
 const { ResponseHandler } = require(`../utils`);
 const { Router } = require(`express`);
-const Logger = require(`../utils/Logger`); // Ensure Logger is imported
+const Logger = require(`../utils/Logger`);
 
 const assessmentRouter = Router();
 
@@ -25,29 +25,7 @@ assessmentRouter.get(`/`, async (req, res, next) => {
     next(err);
   }
 });
-
-assessmentRouter.get(`/list`, async (req, res, next) => {
-  try {
-    const { catName, limit = 10, offset = 0 } = req.query;
-
-    const filters = { catName };
-    Logger.info(`Filters received:`, filters); // Log the filters
-
-    const pagination = { limit: parseInt(limit, 10), offset: parseInt(offset, 10) };
-    const { count, rows } = await AssessmentService.getFilteredAssessments(filters, pagination);
-
-    Logger.info(`Query results:`, { count, rows }); // Log the query results
-    if (!rows || !Array.isArray(rows)) {
-      throw new Error(`Invalid response from getFilteredAssessments: rows is not an array`);
-    }
-
-    ResponseHandler(res, `Fetched ${rows.length} assessments out of ${count}`, { count, rows });
-  } catch (err) {
-    Logger.error(`Error in GET /list route:`, err.message); // Log the error
-    next(err);
-  }
-});
-
+// Retrieves assessments filtered by multiple fields
 assessmentRouter.get(`/filtered`, async (req, res) => {
   try {
     const { catDob, catName, instrumentType, limit = 10, offset = 0, riskLevel } = req.query;

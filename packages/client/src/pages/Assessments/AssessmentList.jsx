@@ -16,6 +16,17 @@ export const AssessmentList = () => {
       const data = await AssessmentService.getList(); // Fetch all results
       setAssessments(Array.isArray(data) ? data : []);
     } catch (error) {
+      // Handle error without using console
+      setAssessments([]); // Clear assessments on error
+    }
+  };
+
+  const fetchAssessments = async (currentFilters) => {
+    try {
+      const data = await AssessmentService.getFilteredList(currentFilters);
+      setAssessments(Array.isArray(data) ? data : []);
+    } catch (error) {
+      // Handle error without using console
       setAssessments([]); // Clear assessments on error
     }
   };
@@ -24,15 +35,6 @@ export const AssessmentList = () => {
   useEffect(() => {
     fetchAllAssessments();
   }, []);
-
-  const fetchAssessments = async (currentFilters) => {
-    try {
-      const data = await AssessmentService.getFilteredList(currentFilters);
-      setAssessments(Array.isArray(data) ? data : []);
-    } catch (error) {
-      setAssessments([]); // Clear assessments on error
-    }
-  };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;

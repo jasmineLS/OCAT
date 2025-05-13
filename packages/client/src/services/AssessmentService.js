@@ -22,7 +22,7 @@ export class AssessmentService {
   static async getFilteredList(filters) {
     try {
       const response = await Axios.get(`/assessment/filtered`, { params: filters });
-      return response.data.rows; // Return the rows from the response
+      return response.data?.rows || []; // Return rows, not just count
     } catch (error) {
       throw new Error(error?.response?.data?.message || error.message || `Unknown error`);
     }
