@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AssessmentService } from '../services/AssessmentService';
+import { logError } from '../utils/logger';
 
 const AssessmentTable = () => {
   const [ assessments, setAssessments ] = useState([]);
@@ -16,7 +17,7 @@ const AssessmentTable = () => {
       setCurrentPage(serverPage);
       setTotalPages(serverTotalPages);
     } catch (error) {
-      console.error(`Error fetching assessments:`, error.message);
+      logError(`Error fetching assessments`, error);
     }
   };
 

@@ -9,7 +9,7 @@ const AssessmentList = () => {
     instrumentType: ``,
     riskLevel: ``,
   });
-  const [ appliedFilters, setAppliedFilters ] = useState({}); // Separate state for applied filters
+  const [ appliedFilters, setAppliedFilters ] = useState({});
   const [ assessments, setAssessments ] = useState([]);
   const [ currentPage, setCurrentPage ] = useState(1);
   const [ totalPages, setTotalPages ] = useState(1);
@@ -26,12 +26,12 @@ const AssessmentList = () => {
       setAssessments(rows);
       setTotalPages(Math.ceil(count / limit));
     } catch (error) {
-      setAssessments([]); // Clear assessments on error
+      setAssessments([]);
     }
   };
 
   useEffect(() => {
-    fetchAssessments(currentPage, appliedFilters); // Use appliedFilters instead of filters
+    fetchAssessments(currentPage, appliedFilters);
   }, [ currentPage, appliedFilters ]);
 
   const handleFilterChange = (e) => {
@@ -87,7 +87,7 @@ const AssessmentList = () => {
     getTableProps,
     headerGroups,
     prepareRow,
-    rows: tableRows, // Rename rows to tableRows to avoid shadowing
+    rows: tableRows,
   } = useTable({
     columns,
     data: assessments,
@@ -159,7 +159,7 @@ const AssessmentList = () => {
             </tr>)}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {tableRows.length > 0 ? // Use tableRows instead of rows
+          {tableRows.length > 0 ?
             tableRows.map((row) => {
               prepareRow(row);
               return (
