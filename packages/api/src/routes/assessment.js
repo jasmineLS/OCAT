@@ -1,48 +1,50 @@
 const { AssessmentService } = require(`../microservices`);
 const { ResponseHandler } = require(`../utils`);
-
 const { Router } = require(`express`);
+const Logger = require(`../utils/Logger`);
 
 const assessmentRouter = Router();
 
-assessmentRouter.post(
-  `/`,
-  async (req, res, next) => {
-    try {
-      const { assessment } = req.body;
+assessmentRouter.post(`/`, async (req, res, next) => {
+  try {
+    const assessment = req.body;
+    const result = await AssessmentService.submit(assessment); // Call submit function
+    ResponseHandler(res, `Submitted assessment`, { result }); // Return the created record
+  } catch (err) {
+    Logger.error(`Error in POST / route:`, err.message); // Log the error
+    next(err);
+  }
+});
 
-      // verify that your data is making it here to the API by using console.log(assessment);
-      // call the AssessmentService.submit function from packages/api/src/microservices/Assessment-Service.js and
-      // supply the correct parameters
+assessmentRouter.get(`/`, async (req, res, next) => {
+  try {
+    const results = await AssessmentService.getList();
+    ResponseHandler(res, `Fetched ${results.length} assessments`, { results });
+  } catch (err) {
+    Logger.error(`Error in GET / route:`, err.message); // Log the error
+    next(err);
+  }
+});
+// Retrieves assessments filtered by multiple fields
+assessmentRouter.get(`/filtered`, async (req, res) => {
+  try {
+    const { catDob, catName, instrumentType, limit = 10, offset = 0, riskLevel } = req.query;
 
-      ResponseHandler(
-        res,
-        `Submitted assessment`,
-        {},
-      );
-    } catch (err) {
-      next(err);
-    }
-  },
-);
+    const filters = { catDob, catName, instrumentType, riskLevel };
+    const pagination = { limit: parseInt(limit, 10), offset: parseInt(offset, 10) };
 
-assessmentRouter.get(
-  `/`,
-  async (req, res, next) => {
-    try {
-      // verify that your data is making it here to the API by using console.log();
-      // call the AssessmentService.getList function from packages/api/src/microservices/Assessment-Service.js
-      const assessments = [];
+    Logger.info(`Incoming filters:`, filters); // Log incoming filters
+    Logger.info(`Pagination details:`, pagination); // Log pagination details
 
-      ResponseHandler(
-        res,
-        `Fetched assessments`,
-        { assessments },
-      );
-    } catch (err) {
-      next(err);
-    }
-  },
-);
+    const { count, rows } = await AssessmentService.getFilteredAssessments(filters, pagination);
+
+    Logger.info(`Query results:`, { count, rows }); // Log query results
+    res.status(200).json({ count, rows });
+  } catch (err) {
+    Logger.error(`Error in /filtered route:`, err.message); // Log the error message
+    Logger.error(`Stack trace:`, err.stack); // Log the stack trace
+    res.status(err.statusCode || 500).json({ error: err.message || `Internal Server Error` });
+  }
+});
 
 module.exports = { assessmentRouter };

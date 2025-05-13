@@ -7,6 +7,7 @@ const cors = require(`cors`);
 const config = require(`config`);
 const { router } = require(`./routes`);
 const { BooleanParser, ErrorHandler } = require(`./utils`);
+const { getList } = require(`./microservices/Assessment-Service`);
 require(`./database`);
 
 const app = express();
@@ -22,6 +23,15 @@ app.use(
 );
 
 app.use(`/api`, router);
+
+app.get(`/api/assessment/list`, async (req, res) => {
+  try {
+    const assessments = await getList(); // Call the getList function
+    res.json({ data: { results: assessments } }); // Return the results in the expected format
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ message: error.message });
+  }
+});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -1,32 +1,30 @@
 import Axios from '../utils/http.config';
 
 export class AssessmentService {
-  static submit(assessment) {
+  static async submit(assessment) {
     try {
-      // Choose the correct method, url, and data to send
-      // in a request to the express packages/api/src/routes/assessment.js
-      // NOTE: the http.config file automatically adds /api to the front of your url
-      return Axios.METHOD(`/some-url`, { })
-        .then(response => response.data);
-    }
-    catch (err) {
-      throw new Error(`${err.response.statusText} - ${err.response.data.message}`);
+      const response = await Axios.post(`/assessment`, assessment);
+      return response.data.result;
+    } catch (err) {
+      throw new Error(err?.response?.data?.message || err.message || `Unknown error`);
     }
   }
 
-  static getList() {
+  static async getList() {
     try {
-      // Choose the correct method, url, and data to send
-      // in a request to the express packages/api/src/routes/assessment.js
-      // NOTE: the http.config file automatically adds /api to the front of your url
-      return Axios.METHOD(`/some-url`, {
-        params: {
-        },
-      })
-        .then(response => response.data.data.assessment);
+      const response = await Axios.get(`/assessment/list`);
+      return response.data?.data?.results || [];
+    } catch (err) {
+      throw new Error(err?.response?.data?.message || err.message || `Unknown error`);
     }
-    catch (err) {
-      throw new Error(`${err.response.statusText} - ${err.response.data.message}`);
+  }
+
+  static async getFilteredList(filters) {
+    try {
+      const response = await Axios.get(`/assessment/filtered`, { params: filters });
+      return response.data?.rows || []; // Return rows, not just count
+    } catch (error) {
+      throw new Error(error?.response?.data?.message || error.message || `Unknown error`);
     }
   }
 }
