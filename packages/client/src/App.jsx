@@ -18,10 +18,6 @@ const App = () => {
     setIsInitialized(true); // Always start with isLoggedIn as false
   }, []);
 
-  const handleLogin = () => {
-    setIsLoggedIn(true); // Set login status to true
-  };
-
   // Prevent rendering the app until initialization is complete
   if (!isInitialized) {
     return null; // Render nothing until initialization is complete
@@ -31,15 +27,12 @@ const App = () => {
     <LoginContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
       <Router>
         <Routes>
-          {/* Remove or replace the Login route */}
-          {/* <Route path="/login" component={Login} /> */}
           <Route
             path="/"
             element={
               isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/dashboard" />
             }
           />
-
           {/* Dashboard is accessible without login */}
           <Route
             path="/dashboard"

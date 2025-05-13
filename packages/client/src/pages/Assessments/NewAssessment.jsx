@@ -52,7 +52,7 @@ export const NewAssessment = () => {
     setRiskLevel(risk);
 
     try {
-      const result = await AssessmentService.submit({
+      await AssessmentService.submit({
         ...data,
         riskLevel: risk,
         score: total,
