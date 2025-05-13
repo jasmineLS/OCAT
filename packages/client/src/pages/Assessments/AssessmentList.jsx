@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTable } from 'react-table';
 import { AssessmentService } from '../../services/AssessmentService';
 
@@ -11,18 +11,28 @@ export const AssessmentList = () => {
   });
   const [ assessments, setAssessments ] = useState([]);
 
-  const fetchAssessments = useCallback(async () => {
+  const fetchAllAssessments = async () => {
     try {
-      const data = await AssessmentService.getFilteredList(filters);
+      const data = await AssessmentService.getList(); // Fetch all results
       setAssessments(Array.isArray(data) ? data : []);
     } catch (error) {
-      setAssessments([]);
+      setAssessments([]); // Clear assessments on error
     }
-  }, [ filters ]);
+  };
 
+  // Fetch all assessments on page load
   useEffect(() => {
-    fetchAssessments();
-  }, [ fetchAssessments ]);
+    fetchAllAssessments();
+  }, []);
+
+  const fetchAssessments = async (currentFilters) => {
+    try {
+      const data = await AssessmentService.getFilteredList(currentFilters);
+      setAssessments(Array.isArray(data) ? data : []);
+    } catch (error) {
+      setAssessments([]); // Clear assessments on error
+    }
+  };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +40,25 @@ export const AssessmentList = () => {
       ...prevFilters,
       [name]: value,
     }));
+  };
+
+  const handleApplyFilters = () => {
+    const hasFilters = Object.values(filters).some((value) => value.trim() !== ``);
+    if (hasFilters) {
+      fetchAssessments(filters); // Fetch filtered results
+    } else {
+      fetchAllAssessments(); // Fetch all results if no filters are applied
+    }
+  };
+
+  const handleClearFilters = () => {
+    setFilters({
+      catDob: ``,
+      catName: ``,
+      instrumentType: ``,
+      riskLevel: ``,
+    });
+    fetchAllAssessments(); // Fetch all results after clearing filters
   };
 
   const columns = useMemo(() => [
@@ -101,8 +130,11 @@ export const AssessmentList = () => {
           <option value="Medium">Medium</option>
           <option value="High">High</option>
         </select>
-        <button onClick={fetchAssessments} style={{ padding: `5px 10px` }}>
+        <button onClick={handleApplyFilters} style={{ marginRight: `10px`, padding: `5px 10px` }}>
           Apply Filter
+        </button>
+        <button onClick={handleClearFilters} style={{ marginRight: `10px`, padding: `5px 10px` }}>
+          Clear Filters
         </button>
       </div>
       <table {...getTableProps()} className="table table-bordered table-striped"
