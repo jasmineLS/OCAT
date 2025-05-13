@@ -28,18 +28,24 @@ assessmentRouter.get(`/`, async (req, res, next) => {
 // Retrieves assessments filtered by multiple fields
 assessmentRouter.get(`/filtered`, async (req, res) => {
   try {
-    const { catDob, catName, instrumentType, limit = 10, offset = 0, riskLevel } = req.query;
+    const { catDob, catName, instrumentType, limit = 15, offset = 0, riskLevel } = req.query;
 
     const filters = { catDob, catName, instrumentType, riskLevel };
-    const pagination = { limit: parseInt(limit, 10), offset: parseInt(offset, 10) };
+    const pagination = {
+      limit: Math.min(parseInt(limit, 10), 15), // Enforce a maximum limit of 15
+      offset: parseInt(offset, 10) || 0, // Ensure offset is a valid number
+    };
 
     Logger.info(`Incoming filters:`, filters); // Log incoming filters
     Logger.info(`Pagination details:`, pagination); // Log pagination details
 
     const { count, rows } = await AssessmentService.getFilteredAssessments(filters, pagination);
 
-    Logger.info(`Query results:`, { count, rows }); // Log query results
-    res.status(200).json({ count, rows });
+    const currentPage = Math.floor(pagination.offset / pagination.limit) + 1;
+    const totalPages = Math.ceil(count / pagination.limit);
+
+    Logger.info(`Query results:`, { count, currentPage, rows, totalPages }); // Log query results
+    res.status(200).json({ count, currentPage, rows, totalPages });
   } catch (err) {
     Logger.error(`Error in /filtered route:`, err.message); // Log the error message
     Logger.error(`Stack trace:`, err.stack); // Log the stack trace

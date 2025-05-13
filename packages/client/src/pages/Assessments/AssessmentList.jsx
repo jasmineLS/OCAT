@@ -2,39 +2,37 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTable } from 'react-table';
 import { AssessmentService } from '../../services/AssessmentService';
 
-export const AssessmentList = () => {
+const AssessmentList = () => {
   const [ filters, setFilters ] = useState({
     catDob: ``,
     catName: ``,
     instrumentType: ``,
     riskLevel: ``,
   });
+  const [ appliedFilters, setAppliedFilters ] = useState({}); // Separate state for applied filters
   const [ assessments, setAssessments ] = useState([]);
+  const [ currentPage, setCurrentPage ] = useState(1);
+  const [ totalPages, setTotalPages ] = useState(1);
 
-  const fetchAllAssessments = async () => {
+  const fetchAssessments = async (page = 1, currentFilters = {}) => {
+    const limit = 15;
+    const offset = (page - 1) * limit;
     try {
-      const data = await AssessmentService.getList(); // Fetch all results
-      setAssessments(Array.isArray(data) ? data : []);
+      const { count, rows } = await AssessmentService.getFilteredList({
+        ...currentFilters,
+        limit,
+        offset,
+      });
+      setAssessments(rows);
+      setTotalPages(Math.ceil(count / limit));
     } catch (error) {
-      // Handle error without using console
       setAssessments([]); // Clear assessments on error
     }
   };
 
-  const fetchAssessments = async (currentFilters) => {
-    try {
-      const data = await AssessmentService.getFilteredList(currentFilters);
-      setAssessments(Array.isArray(data) ? data : []);
-    } catch (error) {
-      // Handle error without using console
-      setAssessments([]); // Clear assessments on error
-    }
-  };
-
-  // Fetch all assessments on page load
   useEffect(() => {
-    fetchAllAssessments();
-  }, []);
+    fetchAssessments(currentPage, appliedFilters); // Use appliedFilters instead of filters
+  }, [ currentPage, appliedFilters ]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -45,12 +43,8 @@ export const AssessmentList = () => {
   };
 
   const handleApplyFilters = () => {
-    const hasFilters = Object.values(filters).some((value) => value.trim() !== ``);
-    if (hasFilters) {
-      fetchAssessments(filters); // Fetch filtered results
-    } else {
-      fetchAllAssessments(); // Fetch all results if no filters are applied
-    }
+    setAppliedFilters(filters); // Apply the filters
+    setCurrentPage(1); // Reset to the first page
   };
 
   const handleClearFilters = () => {
@@ -60,7 +54,20 @@ export const AssessmentList = () => {
       instrumentType: ``,
       riskLevel: ``,
     });
-    fetchAllAssessments(); // Fetch all results after clearing filters
+    setAppliedFilters({}); // Clear applied filters
+    setCurrentPage(1); // Reset to the first page
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
   };
 
   const columns = useMemo(() => [
@@ -80,7 +87,7 @@ export const AssessmentList = () => {
     getTableProps,
     headerGroups,
     prepareRow,
-    rows,
+    rows: tableRows, // Rename rows to tableRows to avoid shadowing
   } = useTable({
     columns,
     data: assessments,
@@ -152,8 +159,8 @@ export const AssessmentList = () => {
             </tr>)}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.length > 0 ?
-            rows.map((row) => {
+          {tableRows.length > 0 ? // Use tableRows instead of rows
+            tableRows.map((row) => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
@@ -171,6 +178,25 @@ export const AssessmentList = () => {
             </tr>}
         </tbody>
       </table>
+      <div className="pagination mt-3">
+        <button
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+          style={{ marginRight: `10px`, padding: `5px 10px` }}
+        >
+          Back
+        </button>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage >= totalPages}
+          style={{ padding: `5px 10px` }}
+        >
+          Next
+        </button>
+        <span style={{ marginLeft: `10px` }}>Page {currentPage} of {totalPages}</span>
+      </div>
     </div>
   );
 };
+
+export default AssessmentList;

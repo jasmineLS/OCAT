@@ -21,8 +21,13 @@ export class AssessmentService {
 
   static async getFilteredList(filters) {
     try {
+      // Ensure filters include limit and offset for pagination
       const response = await Axios.get(`/assessment/filtered`, { params: filters });
-      return response.data?.rows || []; // Return rows, not just count
+      const { count, currentPage, rows, totalPages } = response.data || {};
+      if (!rows) {
+        throw new Error(`Invalid response structure: rows not found`);
+      }
+      return { count, currentPage, rows, totalPages }; // Return pagination metadata
     } catch (error) {
       throw new Error(error?.response?.data?.message || error.message || `Unknown error`);
     }

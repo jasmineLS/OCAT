@@ -3,7 +3,7 @@ import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-d
 import { SiteWrapper } from './components';
 import { DashboardBulletin } from './pages/Dashboard/DashboardBulletin.jsx';
 import { NewAssessment } from './pages/Assessments/NewAssessment.jsx';
-import { AssessmentList } from './pages/Assessments/AssessmentList';
+import AssessmentList from './pages/Assessments/AssessmentList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Create a context for login state

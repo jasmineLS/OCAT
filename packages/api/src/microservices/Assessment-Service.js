@@ -25,7 +25,7 @@ const getList = async () => {
   }
 };
 // Retrieves filtered assessment records with pagination
-const getFilteredAssessments = async (filters, { limit, offset }) => {
+const getFilteredAssessments = async (filters, { limit = 15, offset = 0 }) => {
   try {
     const where = {};
 
@@ -44,6 +44,12 @@ const getFilteredAssessments = async (filters, { limit, offset }) => {
 
     Logger.info(`Filters received:`, filters); // Log incoming filters
     Logger.info(`Generated WHERE clause:`, where); // Log the WHERE clause
+
+    // Enforce a strict limit of 15 per page
+    limit = Math.min(limit, 15);
+    Logger.info(`Final limit applied:`, limit); // Log the final limit value
+    Logger.info(`Offset applied:`, offset); // Log the offset value
+
     // Query database for filtered assessments with pagination and sorting
     const result = await Assessment.findAndCountAll({
       limit,
