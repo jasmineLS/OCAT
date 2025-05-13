@@ -52,9 +52,9 @@ const AssessmentTable = () => {
               <td>{assessment.catDob}</td>
               <td>{assessment.instrumentType}</td>
               <td>{assessment.riskLevel}</td>
-              <td>{assessment.createdAt || `N/A`}</td>
-              <td>{assessment.updatedAt || `N/A`}</td>
-              <td>{assessment.deletedAt || `N/A`}</td>
+              <td>{assessment.createdAt}</td>
+              <td>{assessment.updatedAt}</td>
+              <td>{assessment.deletedAt}</td>
             </tr>)}
         </tbody>
       </table>
