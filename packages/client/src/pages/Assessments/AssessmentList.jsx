@@ -15,7 +15,7 @@ const AssessmentList = () => {
   const [ totalPages, setTotalPages ] = useState(1);
 
   const fetchAssessments = async (page = 1, currentFilters = {}) => {
-    const limit = 15;
+    const limit = 10;
     const offset = (page - 1) * limit;
     try {
       const { count, rows } = await AssessmentService.getFilteredList({
