@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTable } from 'react-table';
+import { Button, Col, Container, Form, Pagination, Row, Table } from 'react-bootstrap';
 import { AssessmentService } from '../../services/AssessmentService';
 
 const AssessmentList = () => {
@@ -43,8 +44,8 @@ const AssessmentList = () => {
   };
 
   const handleApplyFilters = () => {
-    setAppliedFilters(filters); // Apply the filters
-    setCurrentPage(1); // Reset to the first page
+    setAppliedFilters(filters);
+    setCurrentPage(1);
   };
 
   const handleClearFilters = () => {
@@ -54,8 +55,8 @@ const AssessmentList = () => {
       instrumentType: ``,
       riskLevel: ``,
     });
-    setAppliedFilters({}); // Clear applied filters
-    setCurrentPage(1); // Reset to the first page
+    setAppliedFilters({});
+    setCurrentPage(1);
   };
 
   const handleNextPage = () => {
@@ -95,67 +96,66 @@ const AssessmentList = () => {
   });
 
   return (
-    <div className="container mt-4" style={{
-      alignItems: `center`,
-      display: `flex`, flexDirection: `column`, justifyContent: `center`,
-    }}>
-      <h2 style={{ marginBottom: `20px` }}>Assessment List</h2>
-      <div className="filter-bar" style={{ marginBottom: `20px`, maxWidth: `1500px`, width: `100%` }}>
-        <input
-          type="text"
-          name="catName"
-          placeholder="Filter by Cat Name"
-          value={filters.catName}
-          onChange={handleFilterChange}
-          style={{ marginRight: `10px`, padding: `5px`, width: `200px` }}
-        />
-        <input
-          type="date"
-          name="catDob"
-          placeholder="Filter by Date of Birth"
-          value={filters.catDob}
-          onChange={handleFilterChange}
-          style={{ marginRight: `10px`, padding: `5px`, width: `200px` }}
-        />
-        <select
-          name="instrumentType"
-          value={filters.instrumentType}
-          onChange={handleFilterChange}
-          style={{ marginRight: `10px`, padding: `5px`, width: `200px` }}
-        >
-          <option value="">Filter by Instrument Type</option>
-          <option value="Behavioral">Behavioral</option>
-          <option value="Psychological">Psychological</option>
-          <option value="Medical">Medical</option>
-        </select>
-        <select
-          name="riskLevel"
-          value={filters.riskLevel}
-          onChange={handleFilterChange}
-          style={{ marginRight: `10px`, padding: `5px`, width: `200px` }}
-        >
-          <option value="">Filter by Risk Level</option>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
-        <button onClick={handleApplyFilters} style={{ marginRight: `10px`, padding: `5px 10px` }}>
-          Apply Filter
-        </button>
-        <button onClick={handleClearFilters} style={{ marginRight: `10px`, padding: `5px 10px` }}>
-          Clear Filters
-        </button>
-      </div>
-      <table {...getTableProps()} className="table table-bordered table-striped"
-        style={{ maxWidth: `1500px`, textAlign: `center`, width: `100%` }}>
+    <Container className="mt-4">
+      <h2 className="mb-4 text-center">Assessment List</h2>
+      <Row className="mb-4">
+        <Col>
+          <Form.Control
+            type="text"
+            name="catName"
+            placeholder="Filter by Cat Name"
+            value={filters.catName}
+            onChange={handleFilterChange}
+          />
+        </Col>
+        <Col>
+          <Form.Control
+            type="date"
+            name="catDob"
+            placeholder="Filter by Date of Birth"
+            value={filters.catDob}
+            onChange={handleFilterChange}
+          />
+        </Col>
+        <Col>
+          <Form.Select
+            name="instrumentType"
+            value={filters.instrumentType}
+            onChange={handleFilterChange}
+          >
+            <option value="">Filter by Instrument Type</option>
+            <option value="Behavioral">Behavioral</option>
+            <option value="Psychological">Psychological</option>
+            <option value="Medical">Medical</option>
+          </Form.Select>
+        </Col>
+        <Col>
+          <Form.Select
+            name="riskLevel"
+            value={filters.riskLevel}
+            onChange={handleFilterChange}
+          >
+            <option value="">Filter by Risk Level</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </Form.Select>
+        </Col>
+        <Col>
+          <Button variant="primary" onClick={handleApplyFilters} className="me-2">
+            Apply Filter
+          </Button>
+          <Button variant="secondary" onClick={handleClearFilters}>
+            Clear Filters
+          </Button>
+        </Col>
+      </Row>
+      <Table {...getTableProps()} striped bordered hover>
         <thead>
           {headerGroups.map((headerGroup) =>
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) =>
-                <th {...column.getHeaderProps()}
-                  style={{ padding: `10px`, textAlign: `center`, verticalAlign: `middle` }}>
-                  {column.render(`Header`)}
-                </th>)}
+                <th {...column.getHeaderProps()}>{column.render(`Header`)}</th>)}
             </tr>)}
         </thead>
         <tbody {...getTableBodyProps()}>
@@ -165,37 +165,27 @@ const AssessmentList = () => {
               return (
                 <tr {...row.getRowProps()}>
                   {row.cells.map((cell) =>
-                    <td {...cell.getCellProps()} style={{ padding: `10px` }}>
-                      {cell.render(`Cell`)}
-                    </td>)}
+                    <td {...cell.getCellProps()}>{cell.render(`Cell`)}</td>)}
                 </tr>
               );
             }) :
             <tr>
-              <td colSpan={columns.length} className="text-center" style={{ padding: `20px` }}>
+              <td colSpan={columns.length} className="text-center">
                 No assessments found.
               </td>
             </tr>}
         </tbody>
-      </table>
-      <div className="pagination mt-3">
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          style={{ marginRight: `10px`, padding: `5px 10px` }}
-        >
+      </Table>
+      <Pagination className="justify-content-center mt-3">
+        <Pagination.Prev onClick={handlePreviousPage} disabled={currentPage === 1}>
           Back
-        </button>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage >= totalPages}
-          style={{ padding: `5px 10px` }}
-        >
+        </Pagination.Prev>
+        <Pagination.Item active>{`Page ${currentPage} of ${totalPages}`}</Pagination.Item>
+        <Pagination.Next onClick={handleNextPage} disabled={currentPage >= totalPages}>
           Next
-        </button>
-        <span style={{ marginLeft: `10px` }}>Page {currentPage} of {totalPages}</span>
-      </div>
-    </div>
+        </Pagination.Next>
+      </Pagination>
+    </Container>
   );
 };
 

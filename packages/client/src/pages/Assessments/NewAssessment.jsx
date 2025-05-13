@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
 import { Controller, useForm } from 'react-hook-form';
 import { AssessmentService } from '../../services/AssessmentService';
 
 export const NewAssessment = () => {
-  const { control, formState: { errors }, handleSubmit, reset, watch } = useForm(); // Add reset
+  const { control, formState: { errors }, handleSubmit, reset, watch } = useForm();
   const [ score, setScore ] = useState(0);
   const [ riskLevel, setRiskLevel ] = useState(``);
-  const [ notification, setNotification ] = useState(``); // Add state for notification
+  const [ notification, setNotification ] = useState(``);
 
   const calculateScore = (data) => {
     let totalScore = 0;
@@ -57,18 +57,18 @@ export const NewAssessment = () => {
         riskLevel: risk,
         score: total,
       });
-      setNotification(`Assessment submitted successfully!`); // Set success notification
-      setTimeout(() => setNotification(``), 3000); // Clear notification after 3 seconds
-      reset(); // Reset the form
+      setNotification(`Assessment submitted successfully!`);
+      setTimeout(() => setNotification(``), 3000);
+      reset();
     } catch (error) {
-      setNotification(`Error submitting assessment.`); // Set error notification
-      setTimeout(() => setNotification(``), 3000); // Clear notification after 3 seconds
+      setNotification(`Error submitting assessment.`);
+      setTimeout(() => setNotification(``), 3000);
     }
   };
 
   return (
     <>
-      {notification && <div className="alert alert-info mt-3">{notification}</div>} {/* Display notification */}
+      {notification && <Alert variant="info" className="mt-3">{notification}</Alert>}
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Row className="mb-3">
           <Col>
@@ -80,12 +80,12 @@ export const NewAssessment = () => {
                 rules={{ required: `Instrument type is required` }}
                 defaultValue=""
                 render={({ field }) =>
-                  <Form.Control as="select" {...field}>
+                  <Form.Select {...field}>
                     <option value="">Select an instrument type</option>
                     <option value="Behavioral">Behavioral</option>
                     <option value="Psychological">Psychological</option>
                     <option value="Medical">Medical</option>
-                  </Form.Control>}
+                  </Form.Select>}
               />
               {errors.instrumentType && <Form.Text className="text-danger">{errors.instrumentType.message}</Form.Text>}
             </Form.Group>
@@ -272,7 +272,6 @@ export const NewAssessment = () => {
             <Form.Text className="text-danger">{errors.hissesAtStrangers.message}</Form.Text>}
         </Form.Group>
 
-        {/* Score display */}
         <div className="mt-4">
           <h6><strong>Total Score: {score}</strong></h6>
           <h6><strong>Risk Level: {riskLevel}</strong></h6>
