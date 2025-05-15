@@ -80,6 +80,12 @@ const AssessmentList = () => {
     }
   };
 
+  const formatDateTime = (dateTime) => {
+    if (!dateTime) { return ``; }
+    const date = new Date(dateTime);
+    return date.toLocaleString(); // Format to local date and time
+  };
+
   const columns = useMemo(() => [
     { Header: `ID`, accessor: `id` },
     { Header: `Cat Name`, accessor: `catName` },
@@ -87,9 +93,21 @@ const AssessmentList = () => {
     { Header: `Instrument Type`, accessor: `instrumentType` },
     { Header: `Score`, accessor: `score` },
     { Header: `Risk Level`, accessor: `riskLevel` },
-    { Header: `Created At`, accessor: `createdAt` },
-    { Header: `Updated At`, accessor: `updatedAt` },
-    { Header: `Deleted At`, accessor: `deletedAt` },
+    {
+      Cell: ({ value }) => formatDateTime(value), // Format the date
+      Header: `Created At`,
+      accessor: `createdAt`,
+    },
+    {
+      Cell: ({ value }) => formatDateTime(value), // Format the date
+      Header: `Updated At`,
+      accessor: `updatedAt`,
+    },
+    {
+      Cell: ({ value }) => formatDateTime(value), // Format the date
+      Header: `Deleted At`,
+      accessor: `deletedAt`,
+    },
     {
       Cell: ({ row }) =>
         <Button
