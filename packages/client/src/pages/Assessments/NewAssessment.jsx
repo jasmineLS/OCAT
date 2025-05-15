@@ -69,8 +69,10 @@ export const NewAssessment = () => {
   return (
     <>
       {notification && <Alert variant="info" className="mt-3">{notification}</Alert>}
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <Row className="mb-3">
+      <Form onSubmit={handleSubmit(onSubmit)} className="p-4 border rounded shadow-sm bg-light">
+
+        <h5 className="mb-3 text-secondary">Cat Information</h5>
+        <Row className="mb-4">
           <Col>
             <Form.Group controlId="instrumentType">
               <Form.Label><strong>Instrument Type</strong></Form.Label>
@@ -118,7 +120,8 @@ export const NewAssessment = () => {
           </Col>
         </Row>
 
-        <Form.Group controlId="previousContact" className="mb-3">
+        <h5 className="mb-3 text-secondary">Behavioral Assessment</h5>
+        <Form.Group controlId="previousContact" className="mb-4">
           <Form.Label><strong>Previous contact with the Cat Judicial System</strong></Form.Label>
           <Controller
             name="previousContact"
@@ -134,6 +137,7 @@ export const NewAssessment = () => {
                   checked={field.value === `0`}
                   onChange={field.onChange}
                   name={field.name}
+                  className="mb-2"
                 />
                 <Form.Check
                   type="radio"
@@ -148,7 +152,7 @@ export const NewAssessment = () => {
           {errors.previousContact && <Form.Text className="text-danger">{errors.previousContact.message}</Form.Text>}
         </Form.Group>
 
-        <Form.Group controlId="altercationsWithCats" className="mb-3">
+        <Form.Group controlId="altercationsWithCats" className="mb-4">
           <Form.Label><strong>Physical altercations with other cats</strong></Form.Label>
           <Controller
             name="altercationsWithCats"
@@ -164,6 +168,7 @@ export const NewAssessment = () => {
                   checked={field.value === `0`}
                   onChange={field.onChange}
                   name={field.name}
+                  className="mb-2"
                 />
                 <Form.Check
                   type="radio"
@@ -272,13 +277,24 @@ export const NewAssessment = () => {
             <Form.Text className="text-danger">{errors.hissesAtStrangers.message}</Form.Text>}
         </Form.Group>
 
-        <div className="mt-4">
+        <div className="mt-4 text-center">
           <h6><strong>Total Score: {score}</strong></h6>
-          <h6><strong>Risk Level: {riskLevel}</strong></h6>
+          <h6>
+            <strong>
+              Risk Level:
+              <span
+                style={{
+                  color: riskLevel === `Low` ? `green` : riskLevel === `Medium` ? `orange` : `red`,
+                }}
+              >
+                {riskLevel}
+              </span>
+            </strong>
+          </h6>
         </div>
 
-        <div className="mt-3">
-          <Button variant="primary" type="submit">
+        <div className="mt-4 text-center">
+          <Button variant="primary" type="submit" className="px-5">
             Submit
           </Button>
         </div>
