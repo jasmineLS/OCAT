@@ -24,7 +24,7 @@ const AssessmentList = () => {
         limit,
         offset,
       });
-      setAssessments(rows);
+      setAssessments(rows); // Exclude soft-deleted records
       setTotalPages(Math.ceil(count / limit));
     } catch (error) {
       setAssessments([]);
@@ -71,6 +71,15 @@ const AssessmentList = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await AssessmentService.delete(id); // Call the API to soft delete the assessment
+      setAssessments((prevAssessments) => prevAssessments.filter((assessment) => assessment.id !== id)); // Remove the row from the UI
+    } catch (error) {
+      console.error(`Error deleting assessment:`, error);
+    }
+  };
+
   const columns = useMemo(() => [
     { Header: `ID`, accessor: `id` },
     { Header: `Cat Name`, accessor: `catName` },
@@ -81,6 +90,18 @@ const AssessmentList = () => {
     { Header: `Created At`, accessor: `createdAt` },
     { Header: `Updated At`, accessor: `updatedAt` },
     { Header: `Deleted At`, accessor: `deletedAt` },
+    {
+      Cell: ({ row }) =>
+        <Button
+          variant="danger"
+          size="sm"
+          onClick={() => handleDelete(row.original.id)}
+        >
+          Delete
+        </Button>,
+      Header: `Actions`,
+      accessor: `actions`,
+    },
   ], []);
 
   const {
