@@ -86,3 +86,33 @@
 [2025-05-12T20:41:24.534Z] INFO: Filters received and WHERE clause generated:
 [2025-05-12T20:41:24.536Z] INFO: Query results:
 [2025-05-12T20:41:24.536Z] INFO: Query results:
+[2025-05-15T17:15:51.192Z] ERROR: Error in deleteAssessment:
+[2025-05-15T17:15:51.195Z] ERROR: Stack trace:
+[2025-05-15T17:15:51.195Z] ERROR: Error in DELETE /:id route:
+[2025-05-15T17:15:52.780Z] ERROR: Error in deleteAssessment:
+[2025-05-15T17:15:52.781Z] ERROR: Stack trace:
+[2025-05-15T17:15:52.781Z] ERROR: Error in DELETE /:id route:
+[2025-05-15T17:45:48.152Z] ERROR: Error in deleteAssessment:
+[2025-05-15T17:45:48.152Z] ERROR: Stack trace:
+[2025-05-15T17:45:48.152Z] ERROR: Error in DELETE /:id route:
+[2025-05-15T17:45:48.685Z] ERROR: Error in deleteAssessment:
+[2025-05-15T17:45:48.686Z] ERROR: Stack trace:
+[2025-05-15T17:45:48.686Z] ERROR: Error in DELETE /:id route:
+[2025-05-15T17:45:48.843Z] ERROR: Error in deleteAssessment:
+[2025-05-15T17:45:48.844Z] ERROR: Stack trace:
+[2025-05-15T17:45:48.844Z] ERROR: Error in DELETE /:id route:
+[2025-05-15T17:45:49.092Z] ERROR: Error in deleteAssessment:
+[2025-05-15T17:45:49.093Z] ERROR: Stack trace:
+[2025-05-15T17:45:49.093Z] ERROR: Error in DELETE /:id route:
+[2025-05-15T17:45:49.259Z] ERROR: Error in deleteAssessment:
+[2025-05-15T17:45:49.259Z] ERROR: Stack trace:
+[2025-05-15T17:45:49.260Z] ERROR: Error in DELETE /:id route:
+[2025-05-15T17:45:49.383Z] ERROR: Error in deleteAssessment:
+[2025-05-15T17:45:49.384Z] ERROR: Stack trace:
+[2025-05-15T17:45:49.384Z] ERROR: Error in DELETE /:id route:
+[2025-05-15T17:45:49.528Z] ERROR: Error in deleteAssessment:
+[2025-05-15T17:45:49.528Z] ERROR: Stack trace:
+[2025-05-15T17:45:49.528Z] ERROR: Error in DELETE /:id route:
+[2025-05-15T17:45:49.677Z] ERROR: Error in deleteAssessment:
+[2025-05-15T17:45:49.677Z] ERROR: Stack trace:
+[2025-05-15T17:45:49.678Z] ERROR: Error in DELETE /:id route:

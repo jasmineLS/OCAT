@@ -32,4 +32,18 @@ export class AssessmentService {
       throw new Error(error?.response?.data?.message || error.message || `Unknown error`);
     }
   }
+
+  static async delete(id) {
+    try {
+      const response = await Axios.delete(`/assessment/${id}`);
+      return response.data; // Return the response data directly
+    } catch (err) {
+      if (err.response?.status === 404) {
+        throw new Error(`Assessment with ID ${id} not found or already deleted`);
+      }
+      throw new Error(err?.response?.data?.message || err.message || `Unknown error`);
+    }
+  }
 }
+
+export default AssessmentService; // Ensure default export

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTable } from 'react-table';
 import { Button, Col, Container, Form, Pagination, Row, Table } from 'react-bootstrap';
-import { AssessmentService } from '../../services/AssessmentService';
+import AssessmentService from '../../services/AssessmentService'; // Ensure correct import
 
 const AssessmentList = () => {
   const [ filters, setFilters ] = useState({

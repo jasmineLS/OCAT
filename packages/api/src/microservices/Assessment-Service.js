@@ -68,7 +68,56 @@ const getFilteredAssessments = async (filters, { limit = 15, offset = 0 }) => {
   }
 };
 
+// Deletes an assessment record by ID
+const deleteAssessment = async (id) => {
+  try {
+    Logger.info(`Attempting to delete assessment with ID: ${id}`); // Log the ID being deleted
+
+    // Check if the assessment exists
+    const assessment = await Assessment.findByPk(id);
+    if (!assessment) {
+      const error = new Error(`Assessment with ID ${id} not found`);
+      error.statusCode = 404;
+      throw error;
+    }
+
+    // Perform the deletion
+    const deletedCount = await Assessment.destroy({
+      where: { id },
+    });
+
+    if (deletedCount === 0) {
+      const error = new Error(`Failed to delete assessment with ID ${id}`);
+      error.statusCode = 500;
+      throw error;
+    }
+
+    Logger.info(`Assessment with ID ${id} deleted successfully`);
+
+    // Check if the table is empty and reset the auto-increment value
+    const remainingCount = await Assessment.count();
+    if (remainingCount === 0) {
+      Logger.info(`No remaining records. Resetting auto-increment value.`);
+
+      // Dynamically determine the sequence name
+      const tableName = Assessment.getTableName();
+      const { primaryKeyField } = Assessment;
+      const sequenceName = `${tableName}_${primaryKeyField}_seq`;
+
+      await Assessment.sequelize.query(`ALTER SEQUENCE "${sequenceName}" RESTART WITH 1;`);
+    }
+
+    return { message: `Assessment deleted successfully` };
+  } catch (error) {
+    Logger.error(`Error in deleteAssessment:`, error.message); // Log the error message
+    Logger.error(`Stack trace:`, error.stack); // Log the stack trace for debugging
+    error.statusCode = error.statusCode || 500;
+    throw error;
+  }
+};
+
 module.exports = {
+  deleteAssessment, // Export the new function
   getFilteredAssessments,
   getList,
   submit,
